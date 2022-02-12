@@ -1,0 +1,56 @@
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+
+#include <Windows.h>
+#include "2D_graphics.h"
+#include "game_pad.h"
+#include "timer.h"
+#include "ran.h"
+#include "asteroids.h"
+
+using namespace std;
+
+
+
+asteroids::asteroids(double x, double y, double q, char *file_name)
+{
+	this->x = x;
+	this->y = y;
+	this->q = q;
+
+	// a constructor that initializes all the member variables.
+	// file_name is a string that holds the file name of a sprite.
+	// set v and w to 0.0 and scale to 1.0.
+
+	v = 0;
+	w = 0;
+	scale = 0.025;
+	R = 25;
+
+	// since the constructor is loading a file which could
+	// be slow -- don't declare instances of asteroids in
+	// a for loop or as local variables in a function that
+	// get's called repeatedly
+	// -- just declare one instance of asteroids at the beginning
+	// of your program and use it
+	create_sprite(file_name,id);
+
+}
+
+void asteroids::draw()
+// draw functions should assume that the 2D graphics
+// library has been initialized
+// -- you only have to draw the object
+// -- don't use clear or update
+{
+	draw_sprite(id,x,y,q+3.14159,scale);
+}
+
+void asteroids::sim_step(double dt)
+{
+	// one Euler simulation step
+	x = x + v*cos(q)*dt;
+	y = y + v*cos(q)*dt;
+	q = q + w*dt;
+}
